@@ -21,18 +21,13 @@ import {Context} from "./interfaces/interface";
 export default class Utils {
   public static connectUntilReady(interopPlatform: InteropPlatform, methods: MethodImplementation[]): Promise<InteropPeer> {
     return new Promise((resolve) => {
-      const interval = setInterval(() => {
-        const applicationName: string = (interopPlatform as any).config && (interopPlatform as any).config.application
-          ? (interopPlatform as any).config.application : `Fdc3.${interopPlatform.type}.Impl`;
+      const applicationName: string = (interopPlatform as any).config && (interopPlatform as any).config.application
+        ? (interopPlatform as any).config.application : `Fdc3.${interopPlatform.type}.Impl`;
+      (function connect() {
         interopPlatform.connect(applicationName, undefined, methods)
-          .then((interopPeer) => {
-            clearInterval(interval);
-            resolve(interopPeer);
-          })
-          .catch(() => {
-            return;
-          });
-      }, 5000);
+          .then((interopPeer) => resolve(interopPeer))
+          .catch(() => setTimeout(connect, 2000));
+      })();
     });
   }
 

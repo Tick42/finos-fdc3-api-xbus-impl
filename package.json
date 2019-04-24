@@ -1,6 +1,6 @@
 {
   "name": "com-glue42-finos-fdc3-api-impl",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "",
   "main": "./dist/index.node.js",
   "browser": "./dist/index.web.js",

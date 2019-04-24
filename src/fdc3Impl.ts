@@ -164,7 +164,7 @@ class Fdc3Impl implements DesktopAgent {
   public addIntentListener(intent: string, handler: (context: Context) => void): Listener {
     Utils.validateAddIntentListener(intent, handler);
 
-    const unsubscribeFunction = registry.add("add-intent", handler);
+    const unsubscribeFunction = registry.add(`add-intent-${intent}`, handler);
     const unsubscribe: () => void = () => {
       unsubscribeFunction();
     };
@@ -174,7 +174,7 @@ class Fdc3Impl implements DesktopAgent {
         if (method.intent && method.intent.length > 0) {
           for (const methodIntent of method.intent) {
             if (methodIntent.name === intent) {
-              registry.execute("add-intent", methodIntent.context);
+              registry.execute(`add-intent-${intent}`, methodIntent.context);
             }
           }
         }
